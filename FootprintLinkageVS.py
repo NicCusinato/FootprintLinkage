@@ -9,16 +9,18 @@ import time
 
 def setup_driver():
     """
-    Set up Selenium WebDriver without headless mode.
+    Set up Selenium WebDriver with Chromium for Streamlit Cloud.
     """
     chrome_options = Options()
-    # Remove the headless option to allow the browser to be visible
-    chrome_options.add_argument("--start-maximized")  # Start browser maximized
+    chrome_options.add_argument("--headless")
+    chrome_options.add_argument("--disable-gpu")
+    chrome_options.add_argument("--no-sandbox")
+    chrome_options.add_argument("--disable-dev-shm-usage")
+    chrome_options.binary_location = "/usr/bin/chromium-browser"  # Path to Chromium in Streamlit Cloud
 
-    # Path to ChromeDriver
-    service = Service("/path/to/chromedriver")  # Replace with your ChromeDriver path
-    driver = webdriver.Chrome(service=service, options=chrome_options)
+    driver = webdriver.Chrome(service=Service("/usr/bin/chromedriver"), options=chrome_options)
     return driver
+
 
 def search_footprint(driver, footprint_id):
     """
